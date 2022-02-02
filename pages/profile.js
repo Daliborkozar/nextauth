@@ -19,4 +19,22 @@ function ProfilePage() {
   return <UserProfile />;
 }
 
+export async function getServerSideProps(context){
+  const sessions= await getSession({req: context.req})
+
+  if(!sessions){
+    return {
+      //redirect to another page (without flash)
+      redirect: {
+        destination: '/auth',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: { sessions }
+  }
+}
+
 export default ProfilePage;
